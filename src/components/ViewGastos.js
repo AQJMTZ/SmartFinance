@@ -1,42 +1,48 @@
-import {Modal, Form, Button} from "react-bootstrap";
+import {Modal, Form, Button, Stack} from "react-bootstrap";
 import {useRef} from "react";
-import {useCategoria} from "../contexts/CategoriaContext";
+import {CATEGORIA_SIN_NOMBRE, useCategoria} from "../contexts/CategoriaContext";
+import {currencyFormater} from "../utils";
 
-export default function AddCategoria({show, handleClose}){
-    const nameRef = useRef()
-    const maxRef = useRef()
-    const {addBudget} = useCategoria()
-    function handleSubmit(e){
-        e.preventDefault()
-        addBudget(
-        {
-            name: nameRef.current.value,
-            max: parseFloat(maxRef.current.value)
-        })
-        handleClose()
-    }
+export default function ViewGastos({budgetId, handleClose}) {
+
+    const {getBudgetExpenses, budgets, deleteBudget, deleteExpense} = useCategoria()
+
+    const expenses = getBudgetExpenses(budgetId)
+    const budget = CATEGORIA_SIN_NOMBRE === budgetId ?
+        {name: "Sin categoria", id: CATEGORIA_SIN_NOMBRE} :
+        budgets.find(b => b.id === budgetId)
 
 
-    return(
-        <Modal show={show} onHide={handleClose}>
-            <form onSubmit={handleSubmit}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Nueva Categoria</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form.Group className="mb-3" controlId="name">
-                        <Form.Label>Nombre</Form.Label>
-                        <Form.Control ref={nameRef} type="text" required/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="max">
-                        <Form.Label>Gasto maximo</Form.Label>
-                        <Form.Control ref={maxRef} type="number" required min={1} step={0.01}/>
-                    </Form.Group>
-                    <div className="d-flex justify-content-end">
-                        <Button variant="primary" type="submit">Agregar</Button>
-                    </div>
-                </Modal.Body>
-            </form>
+    return (
+        <Modal show={budgetId != null} onHide={handleClose}>
+
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    <Stack direction="horizontal" gap="2">
+                        <div>Gastos - {budget?.name}</div>
+                        {budgetId !== CATEGORIA_SIN_NOMBRE && (
+                            <Button onClick={() => {
+                                deleteBudget(budget)
+                                handleClose()
+                            }}
+                                    variant="outline-danger">Delete
+                            </Button>
+                        )}
+                    </Stack>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Stack direction="vertical" gap="3">
+                    {expenses.map(expense => (
+                        <Stack direction="horizontal" gap="2" key={expense.id}>
+                            <div className="me-auto fs-4">{expense.description}</div>
+                            <div className="fs-5">{currencyFormater.format(expense.amount)}</div>
+                            <Button onClick={() => deleteExpense(expense)} size="sm" variant="outline-danger">&times;</Button>
+                        </Stack>
+                    ))}
+                </Stack>
+            </Modal.Body>
+
         </Modal>
     )
 }

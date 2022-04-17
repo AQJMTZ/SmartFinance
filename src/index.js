@@ -2,10 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { CategoriaProvider } from "./contexts/CategoriaContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <CategoriaProvider>
+        <App />
+      </CategoriaProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
