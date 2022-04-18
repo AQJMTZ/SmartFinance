@@ -48,7 +48,8 @@ function App() {
                 cantidadActual={amount}
                 max={budget.max}
                 onAddExpenseClick={() => openAddExpense(budget.id)}
-                onViewExpenseClick={() => setViewGastosBudgetId(budget.id)}/>
+                onViewExpenseClick={() => setViewGastosBudgetId(budget.id)}
+                onAddIncomeClick={() => openAddIncome(budget.id)}/>
                 )
           })}
           <TarjetaSinCategoria onAddExpenseClick={openAddExpense} onViewExpenseClick={() => setViewGastosBudgetId(CATEGORIA_SIN_NOMBRE)}/>
