@@ -14,6 +14,7 @@ export function useCategoria() {
 export const CategoriaProvider = ({children}) => {
     const [budgets, setBudgets] = useLocalStorage("budgets", [])
     const [expenses, setExpenses] = useLocalStorage("expenses", [])
+    const [income, setIncome] =useLocalStorage("Income", [])
 
 
     function getBudgetExpenses(budgetId) {
@@ -53,6 +54,18 @@ export const CategoriaProvider = ({children}) => {
         })
     }
 
+    function addIncome({description,amount, budgetId}){
+        setIncome(prevIncome=> {
+            return [...prevIncome,{id:uuidV4(),description,amount,budgetId}]
+        })
+    }
+
+    function getBudgetIncome(budgetId){
+        return income.filter(income => income.budgetId === budgetId)
+    }
+
+
+
     return <CategoriaContext.Provider value={{
         budgets,
         expenses,
@@ -60,6 +73,8 @@ export const CategoriaProvider = ({children}) => {
         addExpense,
         addBudget,
         deleteBudget,
+        addIncome,
+        getBudgetIncome,
         deleteExpense
     }}>{children}</CategoriaContext.Provider>
 }

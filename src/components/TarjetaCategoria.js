@@ -8,6 +8,7 @@ export default function TarjetaCategoria({
                                              gray,
                                              hideButtons,
                                              onAddExpenseClick,
+                                             onAddIncomeClick,
                                              onViewExpenseClick
                                          }) {
     const classNames = []
@@ -35,8 +36,8 @@ export default function TarjetaCategoria({
                                       max={max}
                                       now={cantidadActual}></ProgressBar>)}
                 {!hideButtons && <Stack direction="horizontal" gap="2" className="mt-4">
-                    <Button variant="outline-primary" className="ms-auto" onClick={onAddExpenseClick}>agregar
-                        egreso</Button>
+                    <Button variant="outline-primary" className="ms-auto" onClick={onAddExpenseClick}>agregar egreso</Button>
+                    <Button variant="outline-primary" ClassName="ms-auto" onClick={onAddIncomeClick}>agregar ingreso</Button>
                     <Button variant="outline-secondary" onClick={onViewExpenseClick}>ver gastos</Button>
                 </Stack>}
             </Card.Body>

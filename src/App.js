@@ -9,6 +9,7 @@ import AddExpense from "./components/AddExpense";
 import TarjetaSinCategoria from "./components/TarjetaSinCategoria";
 import TarjetaTotal from "./components/TarjetaTotal";
 import ViewGastos from "./components/ViewGastos";
+import AddIncome from './components/AddIncome';
 
 function App() {
   const [showAddCategoria, setShowAddCategoria] = useState(false)
@@ -16,8 +17,13 @@ function App() {
   const [AddExpenseBudgetId, setAddExpenseBudgetId] = useState()
   const [ViewGastosBudgetId, setViewGastosBudgetId] = useState()
   const { budgets, getBudgetExpenses } = useCategoria()
+  const [showAddIncome, setShowAddIncome] =useState(false)
+  const [AddIncomeBudgetId, setAddIncomeBudgetId] = useState()
 
-
+  function openAddIncome(budgetId){
+    setShowAddIncome(true)
+    setAddIncomeBudgetId(budgetId)
+  }
   function openAddExpense(budgetId){
     setShowAddExpense(true)
     setAddExpenseBudgetId(budgetId)
@@ -30,6 +36,7 @@ function App() {
         <h1 className="me-auto">SmartFinance</h1>
         <Button variant="primary" onClick={() => setShowAddCategoria(true)}> Agregar categoria</Button>
         <Button variant="outline-primary" onClick={openAddExpense}> Nuevo gasto</Button>
+        <Button variant="outline-primary" onClick={openAddIncome}>Nuevo ingreso</Button> 
       </Stack>
         <div style={{display:"grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr", gap: "1rem", alignItems: "flex-start"}}>
           {budgets.map(budget => {
@@ -52,6 +59,8 @@ function App() {
     <AddCategoria show={showAddCategoria} handleClose= {() => setShowAddCategoria(false)}/>
         <AddExpense show={showAddExpense} defaultBudgetId={AddExpenseBudgetId} handleClose= {() => setShowAddExpense(false)} />
         <ViewGastos budgetId={ViewGastosBudgetId} handleClose={() => setViewGastosBudgetId()}/>
+        <AddIncome show={showAddIncome} defaultBudgetId= {AddIncomeBudgetId} handleClose= {()=>setShowAddIncome(false)}/>
+          
     </>
   );
 }
