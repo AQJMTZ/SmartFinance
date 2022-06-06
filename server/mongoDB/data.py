@@ -49,19 +49,21 @@ def limite():
     return database["limites"].find_one({"idUsuario": idUsuario})["monto"]
   return False
 
-def registroIngreso(monto, desc):
+def registroIngreso(monto, desc, categoria):
         database["ingresos"].insert_one({
             "idUsuario": idUsuario,
             "monto": monto,
             "desc": desc,
+            "categoria": categoria,
             "fecha": datetime.datetime.utcnow()
         })
 
-def registroEgreso(monto, desc):
+def registroEgreso(monto, desc, categoria):
         database["egresos"].insert_one({
             "idUsuario": idUsuario,
             "monto": monto,
             "desc": desc,
+            "categoria": categoria,
             "fecha": datetime.datetime.utcnow()
         })
 

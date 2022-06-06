@@ -1,6 +1,8 @@
 import {Modal, Form, Button} from "react-bootstrap";
 import {useRef} from "react";
 import {useCategoria} from "../contexts/CategoriaContext";
+import React from 'react';
+import axios from 'axios';
 
 export default function AddCategoria({show, handleClose}) {
     const nameRef = useRef()
