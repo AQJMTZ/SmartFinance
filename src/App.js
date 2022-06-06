@@ -19,6 +19,7 @@ function App() {
   const { budgets, getBudgetExpenses } = useCategoria()
   const [showAddIncome, setShowAddIncome] =useState(false)
   const [AddIncomeBudgetId, setAddIncomeBudgetId] = useState()
+  const {getBudgetIncome} = useCategoria()
 
   function openAddIncome(budgetId){
     setShowAddIncome(true)
@@ -41,12 +42,14 @@ function App() {
         <div style={{display:"grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr", gap: "1rem", alignItems: "flex-start"}}>
           {budgets.map(budget => {
             const amount = getBudgetExpenses(budget.id).reduce((total, expense) => total + expense.amount, 0)
+            const monIncrease = getBudgetIncome(budget.id).increase((total,income)=> total + income.amount, 0)
                 return(
             <TarjetaCategoria
                 key={budget.id}
                 titulo={budget.name}
                 cantidadActual={amount}
                 max={budget.max}
+                cantidadIncrementada = {monIncrease}
                 onAddExpenseClick={() => openAddExpense(budget.id)}
                 onViewExpenseClick={() => setViewGastosBudgetId(budget.id)}
                 onAddIncomeClick={() => openAddIncome(budget.id)}/>
